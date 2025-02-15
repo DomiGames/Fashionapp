@@ -19,7 +19,7 @@ const Home = () => {
         <div className="text-center mt-10">
           <h1 className="text-5xl font-bold mb-4 text-white">Revolutionize Your Fashion Designs</h1>
           <p className="text-lg mb-6 text-white">Upload your sketches, transform them into stunning clothing images, and render them as models with AI!</p>
-          <Link href="/trial" className="px-6 py-3 bg-white text-pink-500 text-lg font-semibold rounded-lg shadow-lg hover:bg-pink-500 hover:text-white transition-all">
+          <Link href="/sketchtoimage" className="px-6 py-3 bg-white text-pink-500 text-lg font-semibold rounded-lg shadow-lg hover:bg-pink-500 hover:text-white transition-all">
             Try for Free
           </Link>
         </div>

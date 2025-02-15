@@ -36,7 +36,7 @@ const SignIn = () => {
         password
     })
     if (res?.ok) {
-      router.push("/");
+      router.push("/sketchtoimage");
       toast.success("login successful");
     } else if (res?.status === 401) {
         setError("Invalid Credentials");
