@@ -63,7 +63,7 @@ const SignUp = () => {
           
         </CardTitle>
         <CardDescription className="text-sm text-center text-accent-foreground">
-              Use email or service to create account
+              Use email to create account
         </CardDescription>
       </CardHeader>
 
@@ -118,14 +118,7 @@ const SignUp = () => {
           </form>
           <Separator />
           <div className="flex my-2 justify-evenly mx-auto items-center">
-            <Button
-              disabled={false}
-              onClick={() => { }}
-              size="lg"
-              className="w-full bg-slate-300 hover:bg-slate-400"
-            >
-              <FcGoogle className="size-8 left-2.5 top-2.5"/>
-            </Button>
+            
           </div>
           <p className="text-center text-sm mt-2 text-muted-foreground">
             Already have an account?

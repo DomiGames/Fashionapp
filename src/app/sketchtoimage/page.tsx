@@ -1,7 +1,9 @@
-'use client';
+"use client";
 
+import { SessionProvider } from "next-auth/react";
 import { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
+import UserButton from "@/components/ui/user-botton";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 export default function FashionAI() {
@@ -49,11 +51,11 @@ export default function FashionAI() {
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      scene.traverse(child => {
-        if (child instanceof THREE.Mesh && child !== plane) {
-          child.rotation.y += 0.01;
-        }
-      });
+      //scene.traverse(child => {
+        //if (child instanceof THREE.Mesh && child !== plane) {
+          //child.rotation.y += 0.01;
+        //}
+      //});
       renderer.render(scene, camera);
     };
     animate();
@@ -132,8 +134,13 @@ export default function FashionAI() {
               }
             });
             
+            // Adjust model rotation
+            obj.rotation.y = Math.PI;
+            obj.rotation.z = Math.PI / 2;
+            obj.rotation.x = Math.PI / 2;
+            
             obj.position.set(0, 0, 0);
-            obj.scale.set(1, 1, 1);
+            obj.scale.set(0.5, 0.5, 0.5);
             sceneRef.current!.add(obj);
           },
           undefined,
@@ -150,56 +157,65 @@ export default function FashionAI() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-gray-900 p-8 rounded-lg shadow-xl max-w-2xl w-full">
-        <h1 className="text-gray-300 text-3xl font-bold text-center mb-8">Fashion Design AI</h1>
-
-        <div className="mb-8">
-          <h2 className="text-gray-300 text-xl mb-4">Upload Your Sketch</h2>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
-            className="w-full text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-800 file:text-gray-200 hover:file:bg-purple-700 cursor-pointer"
-          />
-
-          <div className="mt-4 space-y-2">
-            {generatedImage && (
-              <button
-                onClick={generateModel}
-                className="w-full bg-purple-800 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Generate 3D Model
-              </button>
-            )}
-          </div>
+    <SessionProvider>
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+         <div className="absolute top-4 left-4">
+          <p className="text-xl font-bold text-white">SketchToDress</p>
+        </div>
+        <div className="absolute top-4 right-4">
+          <UserButton />
         </div>
 
-        <div className="space-y-6">
-          {loading && <p className="text-purple-500 text-center">Loading...</p>}
-          {error && <p className="text-red-500 text-center">{error}</p>}
+        <div className="bg-gray-900 p-8 rounded-lg shadow-xl max-w-2xl w-full">
+          <h1 className="text-gray-300 text-3xl font-bold text-center mb-8">Fashion Design AI</h1>
 
-          <div className="flex flex-col items-center space-y-4">
-            {inputImage && (
-              <img
-                src={inputImage}
-                alt="Input sketch"
-                className="max-w-[300px] rounded-lg"
-              />
-            )}
-            {generatedImage && (
-              <img
-                src={generatedImage}
-                alt="Generated design"
-                className="max-w-[300px] rounded-lg"
-              />
-            )}
-            <div className="w-[300px] h-[300px] bg-gray-800 rounded-lg">
-              <canvas ref={canvasRef} className="w-full h-full" />
+          <div className="mb-8">
+            <h2 className="text-gray-300 text-xl mb-4">Upload Your Sketch</h2>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
+              className="w-full text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-800 file:text-gray-200 hover:file:bg-purple-700 cursor-pointer"
+            />
+
+            <div className="mt-4 space-y-2">
+              {generatedImage && (
+                <button
+                  onClick={generateModel}
+                  className="w-full bg-purple-800 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Generate 3D Model
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {loading && <p className="text-purple-500 text-center">Loading...</p>}
+            {error && <p className="text-red-500 text-center">{error}</p>}
+
+            <div className="flex flex-col items-center space-y-4">
+              {inputImage && (
+                <img
+                  src={inputImage}
+                  alt="Input sketch"
+                  className="max-w-[300px] rounded-lg"
+                />
+              )}
+              {generatedImage && (
+                <img
+                  src={generatedImage}
+                  alt="Generated design"
+                  className="max-w-[300px] rounded-lg"
+                />
+              )}
+              <div className="w-[300px] h-[300px] bg-gray-800 rounded-lg">
+                <canvas ref={canvasRef} className="w-full h-full" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+  </SessionProvider>
   );
 }

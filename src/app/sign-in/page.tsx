@@ -53,7 +53,7 @@ const SignIn = () => {
           
         </CardTitle>
         <CardDescription className="text-sm text-center text-accent-foreground">
-              Use email or service to Sign in
+              Use email to Sign in
         </CardDescription>
       </CardHeader>
 
@@ -92,14 +92,11 @@ const SignIn = () => {
           </form>
           <Separator />
           <div className="flex my-2 justify-evenly mx-auto items-center">
-            <Button
-              disabled={false}
-              onClick={() => { }}
-              size="lg"
-              className="w-full bg-slate-300 hover:bg-slate-400"
-            >
-              <FcGoogle className="size-8 left-2.5 top-2.5"/>
-            </Button>
+            <p className="text-center text-sm mt-2 text-muted-foreground">
+              <Link className="text-sky-700 ml-4 hover:underline cursor-pointer" href="/forgot-password">
+                Forgot Password?
+              </Link>
+            </p>
           </div>
           <p className="text-center text-sm mt-2 text-muted-foreground">
             Create new account?
