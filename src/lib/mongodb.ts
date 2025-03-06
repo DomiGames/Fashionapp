@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const MONGODB_URI = process.env.NEXT_PUBLIC_MONGO;
+const MONGODB_URI = process.env.MONGO;
 
 if(!MONGODB_URI){
   throw new Error (" please define mongo environment variable")
