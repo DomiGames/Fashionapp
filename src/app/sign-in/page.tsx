@@ -47,20 +47,13 @@ const SignIn = () => {
     }
   };
 
-  const handleProvider = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    value: "github" | "google"
-  ) => {
-    event.preventDefault();
-    signIn(value, { callbackUrl: "/" });
-  };
   return (
     <div className="h-full flex items-center justify-center bg-[#1b0918]">
       <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8">
         <CardHeader>
           <CardTitle className="text-center">Sign in</CardTitle>
           <CardDescription className="text-sm text-center text-accent-foreground">
-            Use email or service, to sign in
+            Use email to sign in
           </CardDescription>
         </CardHeader>
         {!!error && (

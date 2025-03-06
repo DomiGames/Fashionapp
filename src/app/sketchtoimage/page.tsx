@@ -85,8 +85,40 @@ function FashionAIComponent() {
 
   // Handle image upload and update state with generated URLs
   const handleUpload = async (file: File) => {
+
+     // Check available coins
+    if (coinCount <= 0) {
+      setError("No coins left. Please sign up to buy more coins.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
+
+    // Deduct coin: for logged-in users call API; for guests update localStorage
+    if (session) {
+      const deductRes = await fetch("/api/coins/deduct", { method: "POST" });
+      if (!deductRes.ok) {
+        const errData = await deductRes.json();
+        setError(errData.message || "Error deducting coin");
+        setLoading(false);
+        return;
+      }
+      const data = await deductRes.json();
+      setCoinCount(data.coins);
+    } else {
+      let guestCoins = parseInt(localStorage.getItem("coins") || "5", 10);
+      if (guestCoins <= 0) {
+        setError("No coins left. Please sign up to continue.");
+        setLoading(false);
+        return;
+      }
+      guestCoins -= 1;
+      localStorage.setItem("coins", guestCoins.toString());
+      setCoinCount(guestCoins);
+    }
+  
+
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -210,7 +242,6 @@ function FashionAIComponent() {
         <p className="text-xl font-bold text-white">SketchToDress</p>
       </div>
       <div className="absolute top-4 right-4 flex items-center space-x-4">
-        <span className="text-white">Coins: {coinCount}</span>
         <UserButton />
       </div>
 
@@ -219,6 +250,10 @@ function FashionAIComponent() {
         <h1 className="text-gray-300 text-3xl font-bold text-center mb-8">
           Fashion Design AI
         </h1>
+
+        <div className="flex justify-center  content-center items-center space-x-4">
+          <span className="text-white">Coins: {coinCount}</span>
+        </div>
 
         {/* Upload Section */}
         <div className="mb-8">
